@@ -3,7 +3,7 @@ const token = getTokenFromCookie();
 const socket = new WebSocket(`wss://edu.strada.one/websockets?${token}`);
 const form = document.getElementById("input-form");
 const formInput = document.querySelector(".message-textarea");
-
+const messagesContainer = document.querySelector(".messenger");
 
 //fetching
 async function fetchingDataMessages() {
@@ -33,6 +33,8 @@ async function getHistory() {
   console.log("getHistory сработал при загрузке страницы");
   const array = await fetchingDataMessages();
   mapDataArray(array);
+  console.log(array);
+
   loadMessages();
   bottomMessageScroll("smooth");
 }
@@ -90,8 +92,6 @@ const messagesPerLoad = 10;
 const loadingMessage = document.getElementById("loading");
 const endMessage = document.getElementById("endMessage");
 const dateContainer = document.querySelector(".date-div");
-const plate = document.querySelectorAll(".plate");
-const dateMessage = document.querySelector(".date-hidden");
 
 function mapDataArray(array) {
   const results = array.reverse().map((item) => ({
@@ -118,6 +118,7 @@ function loadMessages() {
     );
     messagesToLoad.forEach((msg) => {
       createHTMLBot(msg.text, msg.name, msg.time, msg.date);
+      console.log(msg);
     });
     currentIndex -= messagesPerLoad;
     if (currentIndex < 0) {
@@ -126,17 +127,28 @@ function loadMessages() {
     loadingMessage.style.display = "none";
     dateContainer.style.display = "block";
   }
+}
 
-  plate.forEach((message) => {
-    console.log(message);
+function setDataDynamic() {
+  const chatObserver = document.querySelector(".container-scroll");
+  const dataPlate = document.querySelector(".date-hidden");
+  const plates = document.querySelectorAll(".plate");
+  plates.forEach((message) => {
+    // console.log(message);
     const rect = message.getBoundingClientRect();
-    const chatRect = messagesContainer.getBoundingClientRect();
-    if (rect.top <= chatRect.top && rect.bottom >= chatRect.bottom) {
-      createHTMLDate(date);
+    const chatRect = chatObserver.getBoundingClientRect();
+    if (rect.top <= chatRect.top || rect.bottom >= chatRect.bottom) {
+      const date = message.lastElementChild.innerHTML;
+      // console.log(message);
+      dataPlate.textContent = getDateThen(date);
+      return;
     }
   });
 }
 
+//scroll
+let hasScrolled = false;
+let hasScrolledToTop = false;
 function topMessageScroll(b) {
   const t = document.querySelector(".scroll-target-top");
   if (!t) return;
@@ -247,7 +259,6 @@ const colors = [
 ];
 const templateUser = document.getElementById("message-user");
 const templateBot = document.getElementById("message-bot");
-const messagesContainer = document.querySelector(".messenger");
 
 function createHTMLUser(text) {
   const template = templateUser.content.cloneNode(true);
@@ -275,7 +286,7 @@ function createHTMLBot(text, name, time, date) {
   dateHidden.textContent = date;
   sender.classList.add("name-bot");
   timeDiv.classList.add("time");
-  timeDiv.setAttribute("data-date", date);
+  // timeDiv.setAttribute("data-date", date);
   messagesContainer.appendChild(template);
 }
 
@@ -404,18 +415,28 @@ window.onload = function () {
   ) {
     popupEmail.style.display = "block";
   }
+  getHistory();
+  connectWebSocket();
 };
-getHistory();
-connectWebSocket();
-scrollLoadingMessages.addEventListener("scroll", async function () {
-  if (scrollLoadingMessages.scrollTop === 0) {
-    console.log("работает скролл при ударении о потолок");
-    loadingMessage.style.display = "block";
-    // dateContainer.style.display = "none";
-    loadMessages();
-    topMessageScroll("smooth");
+scrollLoadingMessages.addEventListener("scroll", function () {
+  if (!hasScrolled && scrollLoadingMessages.scrollTop >= 15) {
+    hasScrolled = true; // Установим флаг, чтобы не вызывать функцию повторно
+    console.log("59px");
+    setDataDynamic();
+  } else {
+    loadingMessage.style.display = "none";
+    dateContainer.style.display = "block";
   }
+  setTimeout(() => {
+    if ( !hasScrolledToTop && scrollLoadingMessages.scrollTop === 0) {
+      hasScrolledToTop = true
+      dateContainer.style.display = "none";
+      loadingMessage.style.display = "block";
+      loadMessages();
+    }
+  }, 1000);
 });
+
 form.addEventListener("submit", function (event) {
   event.preventDefault();
   if (formInput.value === "") return;

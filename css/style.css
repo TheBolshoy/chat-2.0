@@ -58,7 +58,6 @@ p {
 .menu {
   position: relative;
   margin-top: 10px;
-  border-bottom: 1px solid rgb(235, 235, 235);
   width: 85%;
   height: 35px;
 }
@@ -93,9 +92,8 @@ p {
   background-color: #eef0f2;
   margin-inline: auto;
   text-align: center;
-  font-weight: 500;
   border-radius: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   width: 100px;
 }
 
