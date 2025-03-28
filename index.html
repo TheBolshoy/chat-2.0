@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/popup.css" />
+  </head>
+
+  <body>
+    <section class="container-wide">
+      <section class="menu">
+        <button class="left-button"></button>
+        <button class="setting-button"></button>
+      </section>
+
+      <section class="chat-container">
+        <div id="loading">Загрузка...</div>
+        <div id="endMessage" style="display: none">Вся история загружена</div>
+        <div class="date-div">
+          <!-- <p class="date-plate">27, четверг</p> -->
+        </div>
+        <div class="scroll-target-top"></div>
+
+        <div class="container-scroll" style="display: none">
+          <div class="messenger" id="chat" >
+            <template id="message-user">
+              <div class="message-user plate" id="plate-user">
+                <p class="name-user" id="user-name"></p>
+                <p id="textTemplateUser"></p>
+                <p id="timeTemplate" class="time"></p>
+              </div>
+            </template>
+            <template id="message-bot">
+              <div class="message-bot plate" id="plate-bot">
+                <p class="name-bot" id="bot-name"></p>
+                <p id="textTemplateBot"></p>
+                <p id="timeTemplate" class="time"></p>
+                <div class="date-hidden" style="display: none"></div>
+              </div>
+            </template>
+          </div>
+          <div class="scroll-target-bottom"></div>
+        </div>
+      </section>
+
+      <section>
+        <form class="input-form" id="input-form">
+          <textarea
+            type="text"
+            class="message-textarea"
+            name="textarea-form-name"
+            placeholder="Отправить"
+          ></textarea>
+          <button class="send-button" type="submit"></button>
+        </form>
+      </section>
+    </section>
+
+    <div class="popup" id="popup-email">
+      <div class="popup-content">
+        <span class="close" id="close-popup-email">&times;</span>
+        <h5>Настройки</h5>
+        <p>Email:</p>
+        <input
+          type="text"
+          placeholder="Получите код на почту"
+          id="email-input"
+          class="input-popup-email input"
+        />
+        <button class="code-button button" id="get-code-button">
+          Получить код
+        </button>
+      </div>
+    </div>
+
+    <div class="popup" id="popup-code">
+      <div class="popup-content">
+        <span class="close" id="close-popup-code">&times;</span>
+        <h5>Подтверждение</h5>
+        <p>Код:</p>
+        <input
+          type="text"
+          placeholder="Введите код"
+          id="code-input"
+          class="input-popup-code input"
+        />
+        <button class="button" id="send-code-button">Войти</button>
+      </div>
+    </div>
+
+    <div class="popup" id="popup-name">
+      <div class="popup-content">
+        <span class="close" id="close-popup-name">&times;</span>
+        <h5>Настройки</h5>
+        <p>Имя в чате</p>
+        <input
+          type="text"
+          placeholder="Имя"
+          id="name-input"
+          class="input-popup-name input"
+        />
+        <button class="code-button button" id="name-popup-button">
+          Отправить
+        </button>
+      </div>
+    </div>
+
+    <script type="module" src="js/popup-email.js" defer></script>
+    <script type="module" src="js/main.js" defer></script>
+    <script type="module" src="js/popup-name.js" defer></script>
+  </body>
+</html>
