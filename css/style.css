@@ -89,12 +89,12 @@ p {
 } */
 
 .date-div {
-  background-color: #eef0f2;
+  /* background-color: #eef0f2; */
   margin-inline: auto;
   text-align: center;
   border-radius: 5px;
-  margin-bottom: 5px;
-  width: 100px;
+  margin-bottom: 2px;
+  width: 300px;
 }
 
 .messenger {
@@ -127,22 +127,29 @@ p {
   display: flex;
   bottom: 10px;
   margin-top: 10px;
+  border-radius: 10px;
 }
+
+
 
 .message-textarea {
   outline: none;
   border: none;
   border-radius: 10px;
-  background-image: none;
   background-color: white;
-  box-shadow: none;
   max-height: 60px;
   width: 280px;
   padding-inline: 10px 40px;
   font-size: 12px;
   height: 40px;
   line-height: 1.25;
+  transition: box-shadow 0.3s ease;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.message-textarea.empty {
+  box-shadow: 0px 0px 10px 2px rgba(255, 0, 43, 0.171) inset;
+  background-color: rgba(255, 0, 43, 0.103);
 }
 
 .message-textarea::placeholder {
